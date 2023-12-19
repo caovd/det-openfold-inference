@@ -1,7 +1,7 @@
 description: daniel-of-test
 environment:
   # image: caovd:caovd/openfold-1.0
-  image: determinedai/environments:cuda-11.3-pytorch-1.10-deepspeed-0.8.3-gpu-0.24.0
+  image: determinedai/environments:cuda-11.3-pytorch-1.12-gpu-mpi-0.26.4
   environment_variables:
     - NCCL_DEBUG=INFO
     - HF_HOME=/hf_cache
