@@ -1,0 +1,13 @@
+description: daniel-of-test
+environment:
+  # image: caovd:caovd/openfold-1.0
+  image: determinedai/environments:cuda-11.3-pytorch-1.10-deepspeed-0.8.3-gpu-0.24.0
+  environment_variables:
+    - NCCL_DEBUG=INFO
+    - HF_HOME=/hf_cache
+    # You may need to modify this to match your network configuration.
+    #- NCCL_SOCKET_IFNAME=ens,eth,ib
+# idle_timeout: 180m
+resources:
+  slots: 2
+  resource_pool: A100

@@ -1,0 +1,406 @@
+Create shell.yaml
+
+Start a shell
+VPN setup
+conda activate determined
+det -m http://mlds-determined.us.rdlabs.hpecorp.net:8080/ shell start --config-file shell.yaml -c . -w "Solution Engineering"
+
+cd /
+cd run/determined/workdir/
+
+run inference
+chmod +x inference.sh
+./inference.sh
+
+Download additional files from website using lftp
+apt install lftp -y
+lftp -c 'mirror --parallel=100 https://snapshots.pdbj.org/all_mmcif_files_20120102/jd/ ;exit'
+Extract to "extracted" folder
+cd jd/
+or f in *.gz ; do gunzip -c "$f" > ../extracted/"${f%.*}" ; done
+
+Copy extracted files over to the right folder
+cp ./*.* /nvmefs1/daniel.cao/openfold/data/pdb_mmcif/data/files
+
+mkdir test_data
+copy all the test data provided by UNSW to this folder, a copy any of them to fasta_dir then run inference.sh
+mv 613_smaller_proteins.fasta prot_seq_size_test_VRAM.fasta fasta_dir/
+
+/run/determined/workdir/alignments# cd 320
+/run/determined/workdir/alignments/320# ll
+total 7152
+drwxr-xr-x  2 root root     105 Nov 23 23:43 ./
+drwxr-xr-x 10 root root     100 Nov 23 23:43 ../
+-rw-r--r--  1 root root  609211 Nov 23 23:43 bfd_uniclust_hits.a3m
+-rw-r--r--  1 root root 1336198 Nov 23 23:32 mgnify_hits.a3m
+-rw-r--r--  1 root root  849444 Nov 23 23:26 pdb70_hits.hhr
+-rw-r--r--  1 root root 4519399 Nov 23 23:25 uniref90_hits.a3m
+
+
+top - 08:39:15 up 28 days, 15:58, 20 users,  load average: 4.46, 4.38, 4.64
+Tasks:  74 total,   1 running,  48 sleeping,   0 stopped,  25 zombie
+%Cpu(s):  2.0 us,  0.2 sy,  0.0 ni, 97.7 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+MiB Mem : 1031338.+total, 998600.5 free,  18831.4 used,  13906.1 buff/cache
+MiB Swap:   2048.0 total,    551.2 free,   1496.8 used. 1007308.+avail Mem 
+
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND                                                                                                                                                   
+2356395 root      20   0 1126300 820340   2860 S 409.7   0.1  72:12.42 jackhmmer                                                                                                                                                 
+2356408 root      20   0    8068   3748   3112 R   0.3   0.0   0:00.07 top                                                                                                                                                       
+      1 root      20   0  318348   2776      0 S   0.0   0.0   1:00.03 python3                                                                                                                                                   
+      7 root      20   0    5848     68      4 S   0.0   0.0   0:00.00 bash                                                                                                                                                      
+     96 root      20   0   12196   1600   1440 S   0.0   0.0   0:00.01 sshd                                                                                                                                                      
+     97 root      20   0    5848     64      0 S   0.0   0.0   0:00.00 bash                                                                                                                                                      
+    100 root      20   0    4280      0      0 S   0.0   0.0   0:00.00 tee                                                                                                                                                       
+    102 root      20   0   12616      4      4 S   0.0   0.0   0:00.01 sshd                                                                                                                                                      
+    104 root      20   0    6328     12      4 S   0.0   0.0   0:00.00 bash                                                                                                                                                      
+    119 root      20   0   12616      4      4 S   0.0   0.0   0:00.46 sshd                                                                                                                                                      
+    121 root      20   0    6004     12      4 S   0.0   0.0   0:00.01 bash                                                                                                                                                      
+    886 root      20   0       0      0      0 Z   0.0   0.0   0:00.02 python                                                                                                                                                    
+    966 root      20   0       0      0      0 Z   0.0   0.0   0:00.02 git-remote-http                                                                                                                                           
+   4234 root      20   0       0      0      0 Z   0.0   0.0   0:00.02 python                                                                                                                                                    
+   4317 root      20   0       0      0      0 Z   0.0   0.0   0:00.02 git-remote-http                                                                                                                                           
+   4850 root      20   0       0      0      0 Z   0.0   0.0   0:00.02 python                                                                                                                                                    
+   9873 root      20   0       0      0      0 Z   0.0   0.0   0:00.01 git-remote-http                                                                                                                                           
+  10629 root      20   0   13424     12      4 S   0.0   0.0   0:00.19 sshd                                                                                                                                                      
+  10631 root      20   0    9212     12      4 S   0.0   0.0   0:00.79 bash                                                                                                                                                      
+  10636 root      20   0   12616      4      4 S   0.0   0.0   0:00.01 sshd                                                                                                                                                      
+  10638 root      20   0    6104     12      4 S   0.0   0.0   0:00.01 bash                                                                                                                                                      
+  11771 root      20   0       0      0      0 Z   0.0   0.0   0:00.02 bash                                                                                                                                                      
+  11776 root      20   0   12616      4      4 S   0.0   0.0   0:00.00 sshd                                                                                                                                                      
+  11778 root      20   0    6004      4      4 S   0.0   0.0   0:00.00 bash                                                                                                                                                      
+  11804 root      20   0       0      0      0 Z   0.0   0.0   0:00.00 bash                                                                                                                                                      
+  11816 root      20   0   12616      4      4 S   0.0   0.0   0:00.03 sshd                                                                                                                                                      
+  11818 root      20   0    6592     12      4 S   0.0   0.0   0:00.04 bash                                                                                                                                                      
+  11823 root      20   0   12616      4      4 S   0.0   0.0   0:00.00 sshd                                                                                                                                                      
+  11825 root      20   0    6004      4      4 S   0.0   0.0   0:00.00 bash                                                                                                                                                      
+  11866 root      20   0       0      0      0 Z   0.0   0.0   0:00.02 bash                                                                                                                                                      
+  11871 root      20   0   12616      0      0 S   0.0   0.0   0:00.03 sshd                                                                                                                                                      
+  11873 root      20   0    6600     12      4 S   0.0   0.0   0:00.04 bash                                                                                                                                                      
+  12178 root      20   0       0      0      0 Z   0.0   0.0   0:00.00 inference.sh                                                                                                                                              
+  12179 root      20   0       0      0      0 Z   0.0   0.0   6:16.21 python3                                                                                                                                                   
+  12445 root      20   0       0      0      0 Z   0.0   0.0   0:00.00 bash                                                                                                                                                      
+  12471 root      20   0       0      0      0 Z   0.0   0.0   6:30.88 nvidia-smi                                                                                                                                                
+  12481 root      20   0   13404      8      4 S   0.0   0.0   0:00.15 sshd                                                                                                                                                      
+  12483 root      20   0    6108      8      4 S   0.0   0.0   0:00.03 bash                                                                                                                                                      
+  12499 root      20   0       0      0      0 Z   0.0   0.0   0:00.00 bash                                                                                                                                                      
+  12504 root      20   0       0      0      0 Z   0.0   0.0 101:24.00 nvidia-smi                                                                                                                                                
+  12519 root      20   0       0      0      0 Z   0.0   0.0   0:00.00 bash                                                                                                                                                      
+  12524 root      20   0       0      0      0 Z   0.0   0.0   0:00.00 inference.sh                                                                                                                                              
+  12525 root      20   0       0      0      0 Z   0.0   0.0  16:44.33 python3                                                                                                                                                   
+  12898 root      20   0       0      0      0 Z   0.0   0.0   0:00.00 bash                                                                                                                                                      
+  12906 root      20   0   12616     20      0 S   0.0   0.0   0:00.03 sshd                                                                                                                                                      
+  12908 root      20   0    6120      8      0 S   0.0   0.0   0:00.02 bash            
+
+
+
+  top - 08:42:44 up 28 days, 16:02, 21 users,  load average: 4.37, 4.29, 4.54
+Tasks:  77 total,   2 running,  50 sleeping,   0 stopped,  25 zombie
+%Cpu(s):  2.2 us,  0.2 sy,  0.0 ni, 97.6 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+MiB Mem : 1031338.+total, 998551.9 free,  18879.8 used,  13906.4 buff/cache
+MiB Swap:   2048.0 total,    551.4 free,   1496.6 used. 1007260.+avail Mem 
+
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND                                                                                                                                                   
+2356395 root      20   0 1156668 860732   2860 R 408.3   0.1  86:25.24 jackhmmer                                                                                                                                                 
+2356416 root      20   0   20524  16220   3688 S  27.6   0.0   0:13.45 nvidia-smi                                                                                                                                                
+2356408 root      20   0    8068   3748   3112 R   0.3   0.0   0:00.22 top                                                                                                                                                       
+      1 root      20   0  318348   2776      0 S   0.0   0.0   1:00.04 python3                                                                                                                                                   
+      7 root      20   0    5848     68      4 S   0.0   0.0   0:00.00 bash                                                                                                                                                      
+     96 root      20   0   12196   1600   1440 S   0.0   0.0   0:00.01 sshd                                                                                                                                                      
+     97 root      20   0    5848     64      0 S   0.0   0.0   0:00.00 bash                                                                                                                                                      
+    100 root      20   0    4280      0      0 S   0.0   0.0   0:00.00 tee                                                                                                                                                       
+    102 root      20   0   12616      4      4 S   0.0   0.0   0:00.01 sshd                                                                                                                                                      
+    104 root      20   0    6328     12      4 S   0.0   0.0   0:00.00 bash                                                                                                                                                      
+    119 root      20   0   12616      4      4 S   0.0   0.0   0:00.46 sshd                                                                                                                                                      
+    121 root      20   0    6004     12      4 S   0.0   0.0   0:00.01 bash                                                                                                                                                      
+    886 root      20   0       0      0      0 Z   0.0   0.0   0:00.02 python                                                                                                                                                    
+    966 root      20   0       0      0      0 Z   0.0   0.0   0:00.02 git-remote-http                                                                                                                                           
+   4234 root      20   0       0      0      0 Z   0.0   0.0   0:00.02 python                                                                                                                                                    
+   4317 root      20   0       0      0      0 Z   0.0   0.0   0:00.02 git-remote-http                                                                                                                                           
+   4850 root      20   0       0      0      0 Z   0.0   0.0   0:00.02 python                                                                                                                                                    
+   9873 root      20   0       0      0      0 Z   0.0   0.0   0:00.01 git-remote-http                                                                                                                                           
+  10629 root      20   0   13424     12      4 S   0.0   0.0   0:00.19 sshd                                                                                                                                                      
+  10631 root      20   0    9212     12      4 S   0.0   0.0   0:00.79 bash                                                                                                                                                      
+  10636 root      20   0   12616      4      4 S   0.0   0.0   0:00.01 sshd                                                                                                                                                      
+  10638 root      20   0    6104     12      4 S   0.0   0.0   0:00.01 bash                                                                                                                                                      
+  11771 root      20   0       0      0      0 Z   0.0   0.0   0:00.02 bash                                                                                                                                                      
+  11776 root      20   0   12616      4      4 S   0.0   0.0   0:00.00 sshd                                                                                                                                                      
+  11778 root      20   0    6004      4      4 S   0.0   0.0   0:00.00 bash                                                                                                                                                      
+  11804 root      20   0       0      0      0 Z   0.0   0.0   0:00.00 bash                                                                                                                                                      
+  11816 root      20   0   12616      4      4 S   0.0   0.0   0:00.03 sshd                                                                                                                                                      
+  11818 root      20   0    6592     12      4 S   0.0   0.0   0:00.04 bash                                                                                                                                                      
+  11823 root      20   0   12616      4      4 S   0.0   0.0   0:00.00 sshd                                                                                                                                                      
+  11825 root      20   0    6004      4      4 S   0.0   0.0   0:00.00 bash                                                                                                                                                      
+  11866 root      20   0       0      0      0 Z   0.0   0.0   0:00.02 bash                                                                                                                                                      
+  11871 root      20   0   12616      0      0 S   0.0   0.0   0:00.03 sshd                                                                                                                                                      
+  11873 root      20   0    6600     12      4 S   0.0   0.0   0:00.04 bash                                                                                                                                                      
+  12178 root      20   0       0      0      0 Z   0.0   0.0   0:00.00 inference.sh                                                                                                                                              
+  12179 root      20   0       0      0      0 Z   0.0   0.0   6:16.21 python3                                                                                                                                                   
+  12445 root      20   0       0      0      0 Z   0.0   0.0   0:00.00 bash                                                                                                                                                      
+  12471 root      20   0       0      0      0 Z   0.0   0.0   6:30.88 nvidia-smi                                                                                                                                                
+  12481 root      20   0   13404      8      4 S   0.0   0.0   0:00.15 sshd                                                                                                                                                      
+  12483 root      20   0    6108      8      4 S   0.0   0.0   0:00.03 bash                                                                                                                                                      
+  12499 root      20   0       0      0      0 Z   0.0   0.0   0:00.00 bash                                                                                                                                                      
+  12504 root      20   0       0      0      0 Z   0.0   0.0 101:24.00 nvidia-smi                                                                                                                                                
+  12519 root      20   0       0      0      0 Z   0.0   0.0   0:00.00 bash                                                                                                                                                      
+  12524 root      20   0       0      0      0 Z   0.0   0.0   0:00.00 inference.sh                                                                                                                                              
+  12525 root      20   0       0      0      0 Z   0.0   0.0  16:44.33 python3                                                                                                                                                   
+  12898 root      20   0       0      0      0 Z   0.0   0.0   0:00.00 bash                                                                                                                                                      
+  12906 root      20   0   12616     20      0 S   0.0   0.0   0:00.03 sshd 
+
+
+  Tue Dec  5 08:44:44 2023       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 515.65.01    Driver Version: 515.65.01    CUDA Version: 11.7     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  NVIDIA A100-SXM...  Off  | 00000000:4C:00.0 Off |                    0 |
+| N/A   38C    P0    76W / 400W |   1217MiB / 81920MiB |      0%      Default |
+|                               |                      |             Disabled |
++-------------------------------+----------------------+----------------------+
+|   1  NVIDIA A100-SXM...  Off  | 00000000:88:00.0 Off |                    0 |
+| N/A   36C    P0    73W / 400W |      2MiB / 81920MiB |      0%      Default |
+|                               |                      |             Disabled |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|=============================================================================|
++-----------------------------------------------------------------------------+
+
+[1867894.075962] python3 invoked oom-killer: gfp_mask=0x6280ca(GFP_HIGHUSER_MOVABLE|__GFP_ZERO), order=0, oom_score_adj=1000
+[1867894.075994]  oom_kill_process.cold.32+0xb/0x10
+[1867894.077023] oom-kill:constraint=CONSTRAINT_NONE,nodemask=(null),cpuset=kubepods-besteffort-pod568fa003_54c6_4cf4_818d_10d94a28f9eb.slice:cri-containerd:cdba02a14a494d7e92edfce6b59b4f81361925615f44d56a267d03b42dd4d58c,mems_allowed=0-7,global_oom,task_memcg=/system.slice/rke2-agent.service/kubepods-besteffort-pod568fa003_54c6_4cf4_818d_10d94a28f9eb.slice:cri-containerd:cdba02a14a494d7e92edfce6b59b4f81361925615f44d56a267d03b42dd4d58c,task=python3,pid=3024569,uid=0
+[1867894.077157] Out of memory: Killed process 3024569 (python3) total-vm:1154782608kB, anon-rss:1036454884kB, file-rss:77072kB, shmem-rss:10240kB, UID:0 pgtables:2039688kB oom_score_adj:1000
+[1937625.481586] python3 invoked oom-killer: gfp_mask=0x6280ca(GFP_HIGHUSER_MOVABLE|__GFP_ZERO), order=0, oom_score_adj=1000
+[1937625.481622]  oom_kill_process.cold.32+0xb/0x10
+[1937625.482634] oom-kill:constraint=CONSTRAINT_NONE,nodemask=(null),cpuset=kubepods-besteffort-pod568fa003_54c6_4cf4_818d_10d94a28f9eb.slice:cri-containerd:cdba02a14a494d7e92edfce6b59b4f81361925615f44d56a267d03b42dd4d58c,mems_allowed=0-7,global_oom,task_memcg=/system.slice/rke2-agent.service/kubepods-besteffort-pod568fa003_54c6_4cf4_818d_10d94a28f9eb.slice:cri-containerd:cdba02a14a494d7e92edfce6b59b4f81361925615f44d56a267d03b42dd4d58c,task=python3,pid=3794941,uid=0
+[1937625.482898] Out of memory: Killed process 3794941 (python3) total-vm:1154782292kB, anon-rss:1037930392kB, file-rss:76556kB, shmem-rss:9752kB, UID:0 pgtables:2042444kB oom_score_adj:1000
+[2525504.482202] python3 invoked oom-killer: gfp_mask=0x6280ca(GFP_HIGHUSER_MOVABLE|__GFP_ZERO), order=0, oom_score_adj=1000
+[2525504.482228]  oom_kill_process.cold.32+0xb/0x10
+[2525504.483153] oom-kill:constraint=CONSTRAINT_NONE,nodemask=(null),cpuset=kubepods-besteffort-pod568fa003_54c6_4cf4_818d_10d94a28f9eb.slice:cri-containerd:cdba02a14a494d7e92edfce6b59b4f81361925615f44d56a267d03b42dd4d58c,mems_allowed=0-7,global_oom,task_memcg=/system.slice/rke2-agent.service/kubepods-besteffort-pod568fa003_54c6_4cf4_818d_10d94a28f9eb.slice:cri-containerd:cdba02a14a494d7e92edfce6b59b4f81361925615f44d56a267d03b42dd4d58c,task=python3,pid=2501333,uid=0
+[2525504.483278] Out of memory: Killed process 2501333 (python3) total-vm:1205191592kB, anon-rss:1037580444kB, file-rss:77004kB, shmem-rss:10240kB, UID:0 pgtables:2041176kB oom_score_adj:1000
+
+
+top - 18:59:28 up 30 days,  2:18, 22 users,  load average: 3.10, 2.41, 2.93
+Tasks:  77 total,   2 running,  50 sleeping,   0 stopped,  25 zombie
+%Cpu(s):  0.7 us,  0.1 sy,  0.0 ni, 99.2 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+MiB Mem : 1031338.+total, 990480.8 free,  27781.2 used,  13076.0 buff/cache
+MiB Swap:   2048.0 total,    572.1 free,   1475.9 used. 998297.8 avail Mem 
+
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND                                                                                                                                                                                     
+2356492 root      20   0   29.7g  11.5g 393096 R 100.0   1.1   7:29.36 python3                                                                                                                                                                                     
+2356408 root      20   0    8220   1696    964 R   0.3   0.0   1:30.52 top                                                                                                                                                                                         
+      1 root      20   0  318348   5532   2736 S   0.0   0.0   1:04.61 python3                                                                                                                                                                                     
+      7 root      20   0    5848     68      4 S   0.0   0.0   0:00.00 bash                                                                                                                                                                                        
+     96 root      20   0   12196    708    548 S   0.0   0.0   0:00.01 sshd                                                                                                                                                                                        
+     97 root      20   0    5848     64      0 S   0.0   0.0   0:00.00 bash                                                                                                                                                                                        
+    100 root      20   0    4280      0      0 S   0.0   0.0   0:00.00 tee                                                                                                                                                                                         
+    102 root      20   0   12616      4      4 S   0.0   0.0   0:00.01 sshd                                                                                                                                                                                        
+    104 root      20   0    6328     12      4 S   0.0   0.0   0:00.00 bash                                                                                                                                                                                        
+    119 root      20   0   12616      4      4 S   0.0   0.0   0:00.46 sshd                                                                                                                                                                                        
+    121 root      20   0    6004     12      4 S   0.0   0.0   0:00.01 bash                                                                                                                                                                                        
+    886 root      20   0       0      0      0 Z   0.0   0.0   0:00.02 python                                                                                                                                                                                      
+    966 root      20   0       0      0      0 Z   0.0   0.0   0:00.02 git-remote-http                                                                                                                                                                             
+   4234 root      20   0       0      0      0 Z   0.0   0.0   0:00.02 python                                                                                                                                                                                      
+   4317 root      20   0       0      0      0 Z   0.0   0.0   0:00.02 git-remote-http                                                                                                                                                                             
+   4850 root      20   0       0      0      0 Z   0.0   0.0   0:00.02 python                                                                                                                                                                                      
+   9873 root      20   0       0      0      0 Z   0.0   0.0   0:00.01 git-remote-http                                                                                                                                                                             
+  10629 root      20   0   13424     12      4 S   0.0   0.0   0:00.19 sshd                                                                                                                                                                                        
+  10631 root      20   0    9212     12      4 S   0.0   0.0   0:00.79 bash                                                                                                                                                                                        
+  10636 root      20   0   12616      4      4 S   0.0   0.0   0:00.01 sshd                                                                                                                                                                                        
+  10638 root      20   0    6104     12      4 S   0.0   0.0   0:00.01 bash                                                                                                                                                                                        
+  11771 root      20   0       0      0      0 Z   0.0   0.0   0:00.02 bash                                                                                                                                                                                        
+  11776 root      20   0   12616      4      4 S   0.0   0.0   0:00.00 sshd                                                                                                                                                                                        
+  11778 root      20   0    6004      4      4 S   0.0   0.0   0:00.00 bash                                                                                                                                                                                        
+  11804 root      20   0       0      0      0 Z   0.0   0.0   0:00.00 bash                                                                                                                                                                                        
+  11816 root      20   0   12616      4      4 S   0.0   0.0   0:00.03 sshd                                                                                                                                                                                        
+  11818 root      20   0    6592     12      4 S   0.0   0.0   0:00.04 bash                                                                                                                                                                                        
+  11823 root      20   0   12616      4      4 S   0.0   0.0   0:00.00 sshd                                                                                                                                                                                        
+  11825 root      20   0    6004      4      4 S   0.0   0.0   0:00.00 bash                                                                                                                                                                                        
+  11866 root      20   0       0      0      0 Z   0.0   0.0   0:00.02 bash                                                                                                                                                                                        
+  11871 root      20   0   12616      0      0 S   0.0   0.0   0:00.03 sshd                                                                                                                                                                                        
+  11873 root      20   0    6600     12      4 S   0.0   0.0   0:00.04 bash                                                                                                                                                                                        
+  12178 root      20   0       0      0      0 Z   0.0   0.0   0:00.00 inference.sh                                                                                                                                                                                
+  12179 root      20   0       0      0      0 Z   0.0   0.0   6:16.21 python3                                                                                                                                                                                     
+  12445 root      20   0       0      0      0 Z   0.0   0.0   0:00.00 bash                                                                                                                                                                                        
+  12471 root      20   0       0      0      0 Z   0.0   0.0   6:30.88 nvidia-smi                                                                                                                                                                                  
+  12481 root      20   0   13404      8      4 S   0.0   0.0   0:00.15 sshd                                                                                                                                                                                        
+  12483 root      20   0    6108      8      4 S   0.0   0.0   0:00.03 bash                                                                                                                                                                                        
+  12499 root      20   0       0      0      0 Z   0.0   0.0   0:00.00 bash                                                                                                                                                                                        
+  12504 root      20   0       0      0      0 Z   0.0   0.0 101:24.00 nvidia-smi                                                                                                                                                                                  
+  12519 root      20   0       0      0      0 Z   0.0   0.0   0:00.00 bash                                                                                                                                                                                        
+  12524 root      20   0       0      0      0 Z   0.0   0.0   0:00.00 inference.sh                                                                                                                                                                                
+  12525 root      20   0       0      0      0 Z   0.0   0.0  16:44.33 python3                                                                                                                                                                                     
+  12898 root      20   0       0      0      0 Z   0.0   0.0   0:00.00 bash                                                                                                                                                                                        
+  12906 root      20   0   12616     20      0 S   0.0   0.0   0:00.03 sshd                                                                                                                                                                                        
+  12908 root      20   0    6120      8      0 S   0.0   0.0   0:00.02 bash                                                                                                                                                                                        
+  12916 root      20   0       0      0      0 Z   0.0   0.0   1468:59 nvidia-smi                                                                                                                                                                                  
+  13216 root      20   0   12616      4      4 S   0.0   0.0   0:00.03 sshd  
+
+
+top - 20:30:44 up 30 days,  3:50, 22 users,  load average: 1.21, 2.04, 2.76Tasks:  77 total,   2 running,  50 sleeping,   0 stopped,  25 zombie
+%Cpu(s):  1.1 us,  0.4 sy,  0.0 ni, 98.5 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 stMiB Mem : 1031338.+total, 268451.4 free, 752655.8 used,  10230.9 buff/cache
+MiB Swap:   2048.0 total,      9.2 free,   2038.8 used. 273168.0 avail Mem 
+
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND                                                                                                                                             
+    2356492 root      20   0  739.1g 718.1g 386496 R  99.7  71.3  98:28.51 python3                                                                                                                                             
+2356408 root      20   0    8220   1940   1104 R   0.3   0.0   1:34.59 top                                                                                                                                                       
+1 root      20   0  318348   2796      0 S   0.0   0.0   1:04.76 python3                                                                                                                                             
+      7 root      20   0    5848     68      4 S   0.0   0.0   0:00.00 bash                                                                                                                                                
+     96 root      20   0   12196    160      0 S   0.0   0.0   0:00.01 sshd   
+
+
+
+top - 21:51:41 up 30 days,  5:11, 22 users,  load average: 1.30, 1.23, 1.20Tasks:  77 total,   2 running,  50 sleeping,   0 stopped,  25 zombie
+%Cpu(s):  0.7 us,  0.0 sy,  0.0 ni, 99.3 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 stMiB Mem : 1031338.+total, 266826.1 free, 754280.6 used,  10231.3 buff/cache
+MiB Swap:   2048.0 total,    407.8 free,   1640.2 used. 271532.2 avail Mem 
+
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND                                                                                                                                             2356492 root      20   0  740.6g 719.9g 386560 R  99.3  71.5 179:10.44 python3                                                                                                                                             
+      1 root      20   0  318348   2796      0 S   0.0   0.0   1:04.89 python3                                                                                                                                                   7 root      20   0    5848     68      4 S   0.0   0.0   0:00.00 bash                                                                                                                                                
+     96 root      20   0   12196    160      0 S   0.0   0.0   0:00.01 sshd                                                                                                                                                
+     97 root      20   0    5848     64      0 S   0.0   0.0   0:00.00 bash                                                                                                                                                
+    100 root      20   0    4280      0      0 S   0.0   0.0   0:00.00 tee                                                                                                                                                     102 root      20   0   12616      4      4 S   0.0   0.0   0:00.01 sshd                                                                                                                                                
+    104 root      20   0    6328     12      4 S   0.0   0.0   0:00.00 bash                                                                                                                                                    119 root      20   0   12616      4      4 S   0.0   0.0   0:00.46 sshd                                                                                                                                                
+    121 root      20   0    6004     12      4 S   0.0   0.0   0:00.01 bash  
+
+
+INFO:/run/determined/workdir/openfold/utils/script_utils.py:Loaded OpenFold parameters at openfold/resources/openfold_params/finetuning_ptm_2.pt...
+INFO:/run/determined/workdir/run_pretrained_openfold.py:Using precomputed alignments for 10 at ./alignments...
+INFO:/run/determined/workdir/run_pretrained_openfold.py:Using precomputed alignments for 20 at ./alignments...
+INFO:/run/determined/workdir/run_pretrained_openfold.py:Using precomputed alignments for 40 at ./alignments...
+INFO:/run/determined/workdir/run_pretrained_openfold.py:Using precomputed alignments for 80 at ./alignments...
+INFO:/run/determined/workdir/run_pretrained_openfold.py:Using precomputed alignments for 160 at ./alignments...
+INFO:/run/determined/workdir/run_pretrained_openfold.py:Using precomputed alignments for 320 at ./alignments...
+INFO:/run/determined/workdir/run_pretrained_openfold.py:Using precomputed alignments for 640 at ./alignments...
+INFO:/run/determined/workdir/run_pretrained_openfold.py:Using precomputed alignments for 1280 at ./alignments...
+INFO:/run/determined/workdir/run_pretrained_openfold.py:Using precomputed alignments for 2564 at ./alignments...
+INFO:/run/determined/workdir/run_pretrained_openfold.py:Using precomputed alignments for 3013 at ./alignments...
+INFO:/run/determined/workdir/run_pretrained_openfold.py:Using precomputed alignments for 3507 at ./alignments...
+INFO:/run/determined/workdir/run_pretrained_openfold.py:Using precomputed alignments for 4008 at ./alignments...
+INFO:/run/determined/workdir/run_pretrained_openfold.py:Using precomputed alignments for 4516 at ./alignments...
+INFO:/run/determined/workdir/run_pretrained_openfold.py:Using precomputed alignments for 5005 at ./alignments...
+INFO:/run/determined/workdir/run_pretrained_openfold.py:Using precomputed alignments for 5537 at ./alignments...
+INFO:/run/determined/workdir/run_pretrained_openfold.py:Using precomputed alignments for 5890 at ./alignments...
+INFO:/run/determined/workdir/run_pretrained_openfold.py:Using precomputed alignments for 6306 at ./alignments...
+INFO:/run/determined/workdir/run_pretrained_openfold.py:Using precomputed alignments for 6885 at ./alignments...
+INFO:/run/determined/workdir/run_pretrained_openfold.py:Using precomputed alignments for 7081 at ./alignments...
+INFO:/run/determined/workdir/run_pretrained_openfold.py:Using precomputed alignments for 7570 at ./alignments...
+INFO:/run/determined/workdir/run_pretrained_openfold.py:Using precomputed alignments for 8384 at ./alignments...
+INFO:/run/determined/workdir/run_pretrained_openfold.py:Using precomputed alignments for 8797 at ./alignments...
+INFO:/run/determined/workdir/run_pretrained_openfold.py:Using precomputed alignments for 13477 at ./alignments...
+INFO:/run/determined/workdir/run_pretrained_openfold.py:Using precomputed alignments for 14507 at ./alignments...
+./inference.sh: line 17: 2356492 Killed                  python3 run_pretrained_openfold.py /nvmefs1/daniel.cao/openfold/data/fasta_dir /nvmefs1/daniel.cao/openfold/data/pdb_mmcif/data/files --uniref90_database_path /nvmefs1/daniel.cao/openfold/data/uniref90/uniref90.fasta --mgnify_database_path /nvmefs1/daniel.cao/openfold/data/mgnify/mgy_clusters_2018_12.fa --pdb70_database_path /nvmefs1/daniel.cao/openfold/data/pdb70/pdb70 --uniclust30_database_path /nvmefs1/daniel.cao/openfold/data/uniclust30/uniclust30_2018_08 --output_dir ./ --bfd_database_path /nvmefs1/daniel.cao/openfold/data/bfd/bfd_metaclust_clu_complete_id30_c90_final_seq.sorted_opt --model_device "cuda:0" --jackhmmer_binary_path lib/conda/envs/openfold_venv/bin/jackhmmer --hhblits_binary_path lib/conda/envs/openfold_venv/bin/hhblits --hhsearch_binary_path lib/conda/envs/openfold_venv/bin/hhsearch --kalign_binary_path lib/conda/envs/openfold_venv/bin/kalign --config_preset "model_1_ptm" --openfold_checkpoint_path openfold/resources/openfold_params/finetuning_ptm_2.pt \
+
+
+nvidia-smi -i 1 -f gpu_logs_4008.txt -l 1 -d
+
+
+fastfold 
+
+inference.sh
+4 gpus
+chunk size 32
+inplace 
+
+Traceback (most recent call last):
+  File "inference.py", line 556, in <module>
+    main(args)
+  File "inference.py", line 166, in main
+    inference_monomer_model(args)
+  File "inference.py", line 443, in inference_monomer_model
+    torch.multiprocessing.spawn(inference_model, nprocs=args.gpus, args=(args.gpus, result_q, batch, args))
+  File "/opt/conda/envs/fastfold/lib/python3.8/site-packages/torch/multiprocessing/spawn.py", line 240, in spawn
+    return start_processes(fn, args, nprocs, join, daemon, start_method='spawn')
+  File "/opt/conda/envs/fastfold/lib/python3.8/site-packages/torch/multiprocessing/spawn.py", line 198, in start_processes
+    while not context.join():
+  File "/opt/conda/envs/fastfold/lib/python3.8/site-packages/torch/multiprocessing/spawn.py", line 160, in join
+    raise ProcessRaisedException(msg, error_index, failed_process.pid)
+torch.multiprocessing.spawn.ProcessRaisedException: 
+
+-- Process 2 terminated with the following error:
+Traceback (most recent call last):
+  File "/opt/conda/envs/fastfold/lib/python3.8/site-packages/torch/multiprocessing/spawn.py", line 69, in _wrap
+    fn(i, *args)
+  File "/run/determined/workdir/inference.py", line 151, in inference_model
+    out = model(batch)
+  File "/opt/conda/envs/fastfold/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/run/determined/workdir/fastfold/model/hub/alphafold.py", line 522, in forward
+    outputs, m_1_prev, z_prev, x_prev = self.iteration(
+  File "/run/determined/workdir/fastfold/model/hub/alphafold.py", line 203, in iteration
+    self.input_embedder(
+  File "/opt/conda/envs/fastfold/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/run/determined/workdir/fastfold/model/fastnn/ops.py", line 1319, in forward
+    pair_emb = torch.argmin(torch.abs(pair_emb), dim=-1)
+RuntimeError: CUDA out of memory. Tried to allocate 50.96 GiB (GPU 2; 79.21 GiB total capacity; 60.10 GiB already allocated; 17.37 GiB free; 60.13 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+
+
+nvidia-smi dmon -i 0 -s mu -d 1 -o TD -f gpu_logs_5005.txt
+
+root@cmd-34161944-0186-4071-9eac-4b7df5aae8ec-0-34161944-0186-4071-9:/run/determined/workdir# nvidia-smi dmon -i 1 -s mu -d 1 -o TD -f gpu_logs_5005.txt
+^Croot@cmd-34161944-0186-4071-9eac-4b7df5aae8ec-0-34161944-0186-4071-9:/run/determined/workdir# nano gpu_logs_5005.txt 
+root@cmd-34161944-0186-4071-9eac-4b7df5aae8ec-0-34161944-0186-4071-9:/run/determined/workdir# bash inference.sh
+INFO:/run/determined/workdir/run_pretrained_openfold.py:Inference process starts at 1702943407.620577
+INFO:/run/determined/workdir/run_pretrained_openfold.py:Output folder created at /nvmefs1/daniel.cao/openfold/output
+INFO:/run/determined/workdir/run_pretrained_openfold.py:Template featurizer calculated!!!
+INFO:/run/determined/workdir/run_pretrained_openfold.py:Gather all input sequences and tags from all fasta files in fasta_dir completed in 0.39156603813171387
+INFO:/run/determined/workdir/openfold/utils/script_utils.py:Loaded OpenFold parameters at openfold/resources/openfold_params/finetuning_ptm_2.pt...
+INFO:/run/determined/workdir/run_pretrained_openfold.py:Using precomputed alignments for 5005 at /nvmefs1/daniel.cao/openfold/output/alignments...
+INFO:/run/determined/workdir/run_pretrained_openfold.py:Removing temp FASTA file completed!!!
+INFO:/run/determined/workdir/run_pretrained_openfold.py:Precomputing alignments completed!!!
+INFO:/run/determined/workdir/run_pretrained_openfold.py:Removing temp fasta files after generating feature dict is completed!!!
+INFO:/run/determined/workdir/run_pretrained_openfold.py:Start processing generated feature dict...
+INFO:/run/determined/workdir/run_pretrained_openfold.py:Finish processing generated feature dict. Start converting...
+INFO:/run/determined/workdir/run_pretrained_openfold.py:Converting feature dict completed after 25.490490436553955 s.
+INFO:/run/determined/workdir/openfold/utils/script_utils.py:Running inference for 5005...
+Traceback (most recent call last):
+  File "/run/determined/workdir/run_pretrained_openfold.py", line 428, in <module>
+    main(args)
+  File "/run/determined/workdir/run_pretrained_openfold.py", line 276, in main
+    out = run_model(model, processed_feature_dict, tag, args.output_dir)
+  File "/run/determined/workdir/openfold/utils/script_utils.py", line 159, in run_model
+    out = model(batch)
+  File "/opt/conda/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/run/determined/workdir/openfold/model/model.py", line 531, in forward
+    outputs, m_1_prev, z_prev, x_prev = self.iteration(
+  File "/run/determined/workdir/openfold/model/model.py", line 385, in iteration
+    z = self.extra_msa_stack(
+  File "/opt/conda/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/run/determined/workdir/openfold/model/evoformer.py", line 1017, in forward
+    m, z = b(m, z)
+  File "/opt/conda/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/run/determined/workdir/openfold/model/evoformer.py", line 576, in forward
+    m, z = fn(input_tensors)
+  File "/run/determined/workdir/openfold/model/evoformer.py", line 558, in fn
+    m, z = self.core(
+  File "/opt/conda/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/run/determined/workdir/openfold/model/evoformer.py", line 216, in forward
+    opm = self.outer_product_mean(
+  File "/opt/conda/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/run/determined/workdir/openfold/model/outer_product_mean.py", line 158, in forward
+    return self._forward(m, mask, chunk_size, inplace_safe)
+  File "/run/determined/workdir/openfold/model/outer_product_mean.py", line 132, in _forward
+    outer = self._chunk(a, b, chunk_size)
+  File "/run/determined/workdir/openfold/model/outer_product_mean.py", line 79, in _chunk
+    outer = chunk_layer(
+  File "/run/determined/workdir/openfold/utils/chunk_utils.py", line 304, in chunk_layer
+    out = tensor_tree_map(allocate, output_chunk)
+  File "/run/determined/workdir/openfold/utils/tensor_utils.py", line 115, in tree_map
+    return fn(tree)
+  File "/run/determined/workdir/openfold/utils/chunk_utils.py", line 303, in <lambda>
+    allocate = lambda t: t.new_zeros((flat_batch_dim,) + t.shape[1:])
+RuntimeError: CUDA out of memory. Tried to allocate 11.95 GiB (GPU 1; 79.21 GiB total capacity; 43.06 GiB already allocated; 7.71 GiB free; 70.36 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+root@cmd-34161944-0186-4071-9eac-4b7df5aae8ec-0-34161944-0186-4071-9:/run/determined/workdir# Connection to 34161944-0186-4071-9eac-4b7df5aae8ec closed by remote host.
+Connection to 34161944-0186-4071-9eac-4b7df5aae8ec closed.
+
