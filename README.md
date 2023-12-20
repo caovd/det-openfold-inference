@@ -104,9 +104,13 @@ python3 /output/fasta_process.py
 ## Results on 01 Nvidia A100 80GB GPU, without CPU offloading and DeepSpeed
 
 ![](/assets/<2564.png)
+
 Note: Legends indicate different # of residues ranging from 10, 20, 40, ... 2564.
+
 ![](/assets/2564.png)
 ![](/assets/3013.png)
 ![](/assets/3507.png)
 ![](/assets/4008.png)
 ![](/assets/5005.png)
+
+Note: Failure happens due to Out-of-Memory (OOM) for 5005 residue input.
