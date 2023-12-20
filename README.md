@@ -103,7 +103,7 @@ python3 /output/fasta_process.py
 
 ## Results on 01 Nvidia A100 80GB GPU, without CPU offloading and DeepSpeed
 
-![](/assets/less than 2564.png)
+![](/assets/<2564.png)
 ![](/assets/2564.png)
 ![](/assets/3013.png)
 ![](/assets/3507.png)
